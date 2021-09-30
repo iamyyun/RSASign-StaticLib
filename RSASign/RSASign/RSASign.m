@@ -137,7 +137,7 @@ SecKeyRef pubKeyRef = nil;
             
         } else {
             OSStatus status = SecKeyGeneratePair((__bridge CFDictionaryRef)attributes, &pubKeyRef, &prvKeyRef);
-            if (status != errSecSuccess) {      // 키쌍 생성 실패
+            if (status != errSecSuccess) {
                 [resDic setObject:RSASIGN_ERR_E005 forKey:def_resultCode];
                 [resDic setObject:RSASIGN_ERR_E005_MSG forKey:def_resultMsg];
                 return resDic;
@@ -231,8 +231,8 @@ SecKeyRef pubKeyRef = nil;
                 CFErrorRef cfError = nil;
                 pubData = (__bridge_transfer  NSData *)SecKeyCopyExternalRepresentation(pubKeyRef, &cfError);
             } else {
-                NSString *certAlias = @"RSASIGN_KEY_ALIAS";
-                NSString *pubTag = [NSString stringWithFormat:@"%@_PUB", certAlias];
+                NSString *keyAlias = @"RSASIGN_KEY_ALIAS";
+                NSString *pubTag = [NSString stringWithFormat:@"%@_PUB", keyAlias];
                 
                 SecKeyRef finalPubRef = nil;
                 NSDictionary *attributes = @{ (id)kSecClass: (id)kSecClassKey,
@@ -388,7 +388,7 @@ SecKeyRef pubKeyRef = nil;
         [resDic setObject:RSASIGN_SUCCESS_MSG forKey:def_resultMsg];
         
         // check parameter
-        if (signature == nil) {
+        if (signData == nil || signature == nil) {
             [resDic setObject:RSASIGN_ERR_E002 forKey:def_resultCode];
             [resDic setObject:RSASIGN_ERR_E002_MSG forKey:def_resultMsg];
             return resDic;
